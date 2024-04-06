@@ -4,6 +4,21 @@ local capabilities = require("nvchad.configs.lspconfig").capabilities
 
 local lspconfig = require "lspconfig"
 
+lspconfig.pyright.setup {
+  settings = {
+    pyright = {
+      -- Using Ruff's import organizer
+      disableOrganizeImports = true,
+    },
+    python = {
+      analysis = {
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { '*' },
+      },
+    },
+  },
+}
+
 lspconfig.ruff_lsp.setup({
   init_options = {},
   on_attach = on_attach,
@@ -11,7 +26,11 @@ lspconfig.ruff_lsp.setup({
   filetype = {"python"}
 })
 
-lspconfig.pyright.setup(
-  { on_attach = on_attach, capabilities = capabilities, filetype = {"python"}
-})
 
+--Enable (broadcasting) snippet capability for completion
+local html_capabilities = vim.lsp.protocol.make_client_capabilities()
+html_capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+lspconfig.html.setup(
+  {capabilities = capabilities,}
+)
