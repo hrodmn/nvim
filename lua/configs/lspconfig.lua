@@ -11,26 +11,26 @@ lspconfig.pyright.setup {
       disableOrganizeImports = true,
     },
     python = {
-      analysis = {
-        -- Ignore all files for analysis to exclusively use Ruff for linting
-        ignore = { '*' },
-      },
+      -- analysis = {
+      --   -- Ignore all files for analysis to exclusively use Ruff for linting
+      --   ignore = { "*" },
+      -- },
     },
   },
 }
+-- lspconfig.pylyzer.setup {}
 
-lspconfig.ruff_lsp.setup({
+lspconfig.ruff_lsp.setup {
   init_options = {},
   on_attach = on_attach,
   capabilities = capabilities,
-  filetype = {"python"}
-})
-
+  filetype = { "python" },
+}
 
 --Enable (broadcasting) snippet capability for completion
 local html_capabilities = vim.lsp.protocol.make_client_capabilities()
 html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-lspconfig.html.setup(
-  {capabilities = capabilities,}
-)
+lspconfig.html.setup { capabilities = capabilities }
+
+lspconfig.rust_analyzer.setup { capabilities = capabilities }
