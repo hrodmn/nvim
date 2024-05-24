@@ -2,8 +2,8 @@
 local M = {}
 
 M.ui = {
-  theme = 'catppuccin',
-  theme_toggle = {'catppuccin', 'github_light'},
+  theme = 'everforest',
+  theme_toggle = {'everforest', 'github_light'},
   hl_override = {
     ["@comment"] = {
       fg = "white",
