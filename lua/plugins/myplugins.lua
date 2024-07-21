@@ -34,7 +34,7 @@ local plugins = {
     opts = {
       ensure_installed = {
         "lua-language-server",
-        "black@22.3.0",
+        "black",
         "ruff-lsp",
         "debugpy",
         "mypy",
@@ -43,7 +43,9 @@ local plugins = {
         "stylua",
         "prettier",
         "rust-analyzer",
-        -- "pylyzer",
+        "markdownlint-cli2",
+        "terraform-ls",
+        "typescript-language-server",
       },
     },
   },
@@ -64,6 +66,23 @@ local plugins = {
       -- require("gp").setup(config)
 
       -- shortcuts might be setup here (see Usage > Shortcuts in Readme)
+    end,
+  },
+  {
+    "frankroeder/parrot.nvim",
+    lazy = false,
+    -- tag = "v0.3.7",
+    dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" },
+    -- optionally include "rcarriga/nvim-notify" for beautiful notifications
+    config = function()
+      require("parrot").setup {
+        -- Providers must be explicitly added to make them available.
+        providers = {
+          openai = {
+            api_key = os.getenv "OPENAI_API_KEY",
+          },
+        },
+      }
     end,
   },
   {
@@ -132,36 +151,6 @@ local plugins = {
     ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
-    end,
-  },
-  {
-    "vhyrro/luarocks.nvim",
-    priority = 1000,
-    config = true,
-  },
-  {
-    "nvim-neorg/neorg",
-    dependencies = { "luarocks.nvim" },
-    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-    version = "*", -- Pin Neorg to the latest stable release
-    config = function()
-      require("neorg").setup {
-        load = {
-          ["core.defaults"] = {},
-          ["core.concealer"] = {},
-          ["core.dirman"] = {
-            config = {
-              workspaces = {
-                notes = "~/notes",
-              },
-              default_workspace = "notes",
-            },
-          },
-        },
-      }
-
-      vim.wo.foldlevel = 99
-      vim.wo.conceallevel = 2
     end,
   },
 }

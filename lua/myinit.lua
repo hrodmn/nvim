@@ -1,3 +1,3 @@
 -- set the python 3 provider
--- vim.g.python3_host_prog=vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
+-- vim.g.python3_host_prog = vim.fn.expand "~/.virtualenvs/neovim/bin/python3"
 -- vim.api.nvim_set_hl(0, 'Comment', { fg = '#cccccc' })
