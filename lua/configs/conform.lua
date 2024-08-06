@@ -11,20 +11,21 @@ local options = {
       -- To fix lint errors.
       "ruff_fix",
       -- To run the Ruff formatter.
-      -- "ruff_format",
+      "ruff_format",
       -- To run black
-      "isort",
-      "black",
+      -- "isort",
+      -- "black",
     },
     rust = { "rustfmt" },
+    sql = { "pg_format" },
     terraform = { "terraform-fmt" },
   },
 
   format_on_save = {
     -- These options will be passed to conform.format()
-    timeout_ms = 500,
+    timeout_ms = 1000,
     lsp_fallback = true,
-    async = true,
+    async = false,
   },
 }
 

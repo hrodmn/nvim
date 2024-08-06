@@ -40,3 +40,7 @@ html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 lspconfig.html.setup { capabilities = capabilities }
 lspconfig.tsserver.setup {}
 lspconfig.rust_analyzer.setup { capabilities = capabilities }
+lspconfig.docker_compose_language_service.setup {}
+lspconfig.dockerls.setup {}
+lspconfig.sqlls.setup {}
+-- lspconfig.postgres_lsp.setup {}

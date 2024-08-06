@@ -23,6 +23,10 @@ local plugins = {
     lazy = false,
   },
   {
+    "vim-test/vim-test",
+    lazy = false,
+  },
+  {
     "nvimtools/none-ls.nvim",
     lazy = false,
     opts = function()
@@ -46,6 +50,12 @@ local plugins = {
         "markdownlint-cli2",
         "terraform-ls",
         "typescript-language-server",
+        "hadolint",
+        "docker-compose-language-service",
+        "dockerfile-language-server",
+        "sqlls",
+        "sqlfmt",
+        "sqlfluff",
       },
     },
   },
@@ -69,21 +79,33 @@ local plugins = {
     end,
   },
   {
-    "frankroeder/parrot.nvim",
-    lazy = false,
-    -- tag = "v0.3.7",
-    dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" },
-    -- optionally include "rcarriga/nvim-notify" for beautiful notifications
+    "dense-analysis/ale",
     config = function()
-      require("parrot").setup {
-        -- Providers must be explicitly added to make them available.
-        providers = {
-          openai = {
-            api_key = os.getenv "OPENAI_API_KEY",
-          },
-        },
+      -- Configuration goes here.
+      local g = vim.g
+
+      g.ale_ruby_rubocop_auto_correct_all = 1
+
+      g.ale_linters = {
+        Dockerfile = { "hadolint" },
       }
+
+      vim.cmd [[
+     " Make sure ale is loaded
+     au BufRead,BufNewFile Dockerfile setlocal filetype=dockerfile
+
+     let g:ale_enabled = 0  " Disable ALE by default
+
+     " Enable ALE for Dockerfiles only
+     autocmd FileType dockerfile let b:ale_enabled = 1
+
+     " Specify hadolint as the linter for Dockerfile
+     let g:ale_linters = {
+     \   'dockerfile': ['hadolint']
+     \}
+   ]]
     end,
+    lazy = false,
   },
   {
     "nvim-neotest/nvim-nio",
@@ -151,6 +173,37 @@ local plugins = {
     ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
+    end,
+  },
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    -- ft = "markdown",
+    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+    event = {
+      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+      "BufReadPre /home/henry/vaults/**.md",
+      "BufNewFile /home/henry/vaults/**.md",
+    },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {},
+    config = function()
+      require("obsidian").setup {
+        workspaces = {
+          {
+            name = "vault",
+            path = "~/vaults",
+          },
+        },
+      }
+    end,
+    init = function()
+      vim.opt_local.conceallevel = 1
     end,
   },
 }
