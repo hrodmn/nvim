@@ -6,22 +6,26 @@ local lspconfig = require "lspconfig"
 
 lspconfig.pyright.setup {
   settings = {
-    basedpyright = {
+    pyright = {
       -- Using Ruff's import organizer
       disableOrganizeImports = true,
     },
-    -- python = {
-    --   analysis = {
-    --     -- Ignore all files for analysis to exclusively use Ruff for linting
-    --     ignore = { "*" },
-    --   },
-    -- },
+    python = {
+      analysis = {
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { "*" },
+      },
+    },
   },
 }
--- lspconfig.pylyzer.setup {}
 
-lspconfig.ruff_lsp.setup {
-  init_options = {},
+lspconfig.ruff.setup {
+  trace = "messages",
+  init_options = {
+    settings = {
+      logLevel = "debug",
+    },
+  },
   on_attach = on_attach,
   capabilities = capabilities,
   filetype = { "python" },
@@ -38,7 +42,7 @@ local html_capabilities = vim.lsp.protocol.make_client_capabilities()
 html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 lspconfig.html.setup { capabilities = capabilities }
-lspconfig.tsserver.setup {}
+lspconfig.ts_ls.setup {}
 lspconfig.rust_analyzer.setup { capabilities = capabilities }
 lspconfig.docker_compose_language_service.setup {}
 lspconfig.dockerls.setup {}

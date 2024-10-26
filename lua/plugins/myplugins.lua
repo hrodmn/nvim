@@ -14,10 +14,6 @@ local plugins = {
     "christoomey/vim-tmux-navigator",
     lazy = false,
   },
-  -- {
-  --   "github/copilot.vim",
-  --   lazy = false,
-  -- },
   {
     "tpope/vim-fugitive",
     lazy = false,
@@ -37,25 +33,24 @@ local plugins = {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "lua-language-server",
         "black",
-        "ruff-lsp",
         "debugpy",
-        "mypy",
-        "pyright",
-        "ruff",
-        "stylua",
-        "prettier",
-        "rust-analyzer",
-        "markdownlint-cli2",
-        "terraform-ls",
-        "typescript-language-server",
-        "hadolint",
         "docker-compose-language-service",
         "dockerfile-language-server",
-        "sqlls",
-        "sqlfmt",
+        "hadolint",
+        "lua-language-server",
+        "markdownlint-cli2",
+        "mypy",
+        "prettier",
+        "pyright",
+        "ruff",
+        "rust-analyzer",
         "sqlfluff",
+        "sqlfmt",
+        "sqlls",
+        "stylua",
+        "terraform-ls",
+        "typescript-language-server",
       },
     },
   },
@@ -70,7 +65,33 @@ local plugins = {
     "robitx/gp.nvim",
     lazy = false,
     config = function()
-      require("gp").setup()
+      local conf = {
+        providers = {
+          openai = {
+            disable = false,
+            endpoint = "https://api.openai.com/v1/chat/completions",
+            secret = os.getenv "OPENAI_API_KEY",
+          },
+          anthropic = {
+            disable = false,
+            endpoint = "https://api.anthropic.com/v1/messages",
+            secret = os.getenv "ANTHROPIC_API_KEY",
+          },
+        },
+        agents = {
+          {
+            provider = "anthropic",
+            name = "ChatClaude-3-5-Sonnet",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+            model = { model = "claude-3-5-sonnet-20241022", temperature = 0.8, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = require("gp.defaults").chat_system_prompt,
+          },
+        },
+      }
+      require("gp").setup(conf)
 
       -- or setup with your own config (see Install > Configuration in Readme)
       -- require("gp").setup(config)

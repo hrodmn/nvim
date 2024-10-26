@@ -17,7 +17,7 @@ local options = {
       -- "black",
     },
     rust = { "rustfmt" },
-    sql = { "pg_format" },
+    -- sql = { "pg_format" },
     terraform = { "terraform-fmt" },
   },
 
