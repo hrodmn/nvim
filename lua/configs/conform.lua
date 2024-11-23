@@ -8,16 +8,11 @@ local options = {
     typescriptreact = { "prettier" },
     markdown = { "markdownlint-cli2" },
     python = {
-      -- To fix lint errors.
       "ruff_fix",
-      -- To run the Ruff formatter.
       "ruff_format",
-      -- To run black
-      -- "isort",
-      -- "black",
+      "ruff_organize_imports",
     },
     rust = { "rustfmt" },
-    -- sql = { "pg_format" },
     terraform = { "terraform-fmt" },
   },
 

@@ -1,8 +1,7 @@
-local on_attach = require("nvchad.configs.lspconfig").on_attach
-local on_init = require("nvchad.configs.lspconfig").on_init
-local capabilities = require("nvchad.configs.lspconfig").capabilities
-
+local nvlsp = require "nvchad.configs.lspconfig"
 local lspconfig = require "lspconfig"
+
+nvlsp.defaults() -- loads nvchad's defaults
 
 lspconfig.pyright.setup {
   settings = {
@@ -13,38 +12,23 @@ lspconfig.pyright.setup {
     python = {
       analysis = {
         -- Ignore all files for analysis to exclusively use Ruff for linting
-        ignore = { "*" },
+        -- ignore = { "*" },
       },
     },
   },
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
 }
 
-lspconfig.ruff.setup {
-  trace = "messages",
-  init_options = {
-    settings = {
-      logLevel = "debug",
-    },
-  },
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetype = { "python" },
-}
+local servers =
+  { "ruff", "terraformls", "html", "ts_ls", "rust_analyzer", "docker_compose_language_service", "dockerls", "sqlls" }
 
-lspconfig.terraformls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetype = { "terraform" },
-}
-
---Enable (broadcasting) snippet capability for completion
-local html_capabilities = vim.lsp.protocol.make_client_capabilities()
-html_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-lspconfig.html.setup { capabilities = capabilities }
-lspconfig.ts_ls.setup {}
-lspconfig.rust_analyzer.setup { capabilities = capabilities }
-lspconfig.docker_compose_language_service.setup {}
-lspconfig.dockerls.setup {}
-lspconfig.sqlls.setup {}
--- lspconfig.postgres_lsp.setup {}
+-- lsps with default config
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = nvlsp.on_attach,
+    on_init = nvlsp.on_init,
+    capabilities = nvlsp.capabilities,
+  }
+end
