@@ -35,6 +35,7 @@ local plugins = {
         "markdownlint-cli2",
         "mypy",
         "prettier",
+        "python-lsp-server",
         "pyright",
         "ruff",
         "rust-analyzer",
