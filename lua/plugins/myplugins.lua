@@ -253,12 +253,44 @@ local plugins = {
   },
   {
     "NeogitOrg/neogit",
+    event = "VeryLazy",
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
       "nvim-telescope/telescope.nvim", -- optional
     },
     config = true,
+  },
+  { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
+    -- for complete functionality (language features)
+    "quarto-dev/quarto-nvim",
+    ft = { "quarto" },
+    dev = false,
+    opts = {},
+    dependencies = {
+      -- for language features in code cells
+      -- configured in lua/plugins/lsp.lua and
+      -- added as a nvim-cmp source in lua/plugins/completion.lua
+      "jmbuhr/otter.nvim",
+    },
+  },
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true }, -- Optional
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
   },
 }
 return plugins
