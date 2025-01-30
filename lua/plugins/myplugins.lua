@@ -248,5 +248,13 @@ local plugins = {
       vim.g.db_ui_use_nerd_fonts = 1
     end,
   },
+  {
+    "ruifm/gitlinker.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("gitlinker").setup {}
+    end,
+    lazy = false,
+  },
 }
 return plugins
