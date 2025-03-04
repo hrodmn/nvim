@@ -61,11 +61,11 @@ local plugins = {
         agents = {
           {
             provider = "anthropic",
-            name = "ChatClaude-3-5-Sonnet",
+            name = "ChatClaude-3-7-Sonnet",
             chat = true,
             command = false,
             -- string with model name or table with model name and parameters
-            model = { model = "claude-3-5-sonnet-20241022", temperature = 0.8, top_p = 1 },
+            model = { model = "claude-3-7-sonnet-20250219", temperature = 0.8, top_p = 1 },
             -- system prompt (use this to specify the persona/role of the AI)
             system_prompt = require("gp.defaults").chat_system_prompt,
           },
