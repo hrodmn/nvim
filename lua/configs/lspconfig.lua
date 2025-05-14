@@ -26,6 +26,7 @@ local servers = {
   docker_compose_language_service = {},
   dockerls = {},
   sqlls = {},
+  r_language_server = {},
 }
 
 for server_name, server_config in pairs(servers) do

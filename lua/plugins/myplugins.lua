@@ -6,9 +6,11 @@ local plugins = {
     },
   },
   {
-    "benlubas/molten-nvim",
+    "geg2102/nvim-jupyter-client",
     lazy = false,
-    build = ":UpdateRemotePlugins",
+    config = function()
+      require("nvim-jupyter-client").setup {}
+    end,
   },
   {
     "christoomey/vim-tmux-navigator",
@@ -31,6 +33,7 @@ local plugins = {
         "dockerfile-language-server",
         "hadolint",
         "typescript-language-server",
+        "r-language-server",
       },
     },
   },
@@ -57,6 +60,10 @@ local plugins = {
             endpoint = "https://api.anthropic.com/v1/messages",
             secret = os.getenv "ANTHROPIC_API_KEY",
           },
+          googleai = {
+            disable = false,
+            secret = os.getenv "GOOGLEAI_API_KEY",
+          },
         },
         agents = {
           {
@@ -66,6 +73,16 @@ local plugins = {
             command = false,
             -- string with model name or table with model name and parameters
             model = { model = "claude-3-7-sonnet-20250219", temperature = 0.8, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = require("gp.defaults").chat_system_prompt,
+          },
+          {
+            provider = "googleai",
+            name = "Gemini-2.5-Flash",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+            model = { model = "gemini-2.5-pro-exp-03-25", temperature = 1.1, top_p = 1 },
             -- system prompt (use this to specify the persona/role of the AI)
             system_prompt = require("gp.defaults").chat_system_prompt,
           },
@@ -289,6 +306,21 @@ local plugins = {
     config = function()
       require("gitlinker").setup {}
     end,
+    lazy = false,
+  },
+  {
+    "davidmh/mdx.nvim",
+    config = true,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    lazy = false,
+  },
+  {
+    "rlch/github-notifications.nvim",
+    config = [[require('config.github-notifications')]],
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
     lazy = false,
   },
 }

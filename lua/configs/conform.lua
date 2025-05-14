@@ -17,6 +17,7 @@ local options = {
     quarto = { "injected" },
     rust = { "rustfmt" },
     terraform = { "terraform-fmt" },
+    r = { "styler" },
   },
 
   format_on_save = {

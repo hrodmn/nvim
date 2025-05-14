@@ -35,6 +35,9 @@ map("n", "<leader>pc", "<cmd> !pre-commit run --all-files<CR>", { desc = "Run pr
 --   { desc = "telescope find files" }
 -- )
 
+-- Run pre-commit
+map("n", "<leader>gp", "<cmd> !git pull<CR>", { desc = "Run git pull" })
+
 -- Render markdown preview
 map("n", "<leader>mp", "<cmd> MarkdownPreview<CR>", { desc = "Render markdown preview" })
 
